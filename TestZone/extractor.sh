@@ -16,16 +16,15 @@ function check() {
             mkdir $filename
             cd $filename
         fi
-        ret=1
+        return 0
     else
-        ret=0
+        return 1
     fi
-    echo "$ret"
 }
 
-if [[ $(check ".tar.gz") == "1" ]]; then
+if check ".tar.gz"; then
     tar -xvf ../$path
-elif [[ $(check ".zip") == "1" ]]; then
+elif check ".zip"; then
     unzip ../$path
 else
     echo "Unknown file type"
