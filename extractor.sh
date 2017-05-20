@@ -2,6 +2,7 @@
 
 path=$1
 filename=$(basename "$path")
+script_dir=$(dirname $(readlink -f "$0"))
 
 function check() {
     extension=$1
@@ -22,14 +23,7 @@ function check() {
     fi
 }
 
-if check ".tar.gz"; then
-    tar -xvf ../$path
-elif check ".zip"; then
-    unzip ../$path
-else
-    echo "Unknown file type"
-    exit 1
-fi
+source $script_dir/config.sh
 
 count=0
 for file in $(ls); do
