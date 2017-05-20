@@ -36,7 +36,10 @@ for file in $(ls); do
     count=$[$count+1]
 done
 
-if [[ $count == 1 && -d "$filename" ]]; then
+cd ..
+
+if [[ $count == 1 ]]; then
     mv $filename/* .
     rmdir $filename
+    echo "[OUTPUT] $file"
 fi
