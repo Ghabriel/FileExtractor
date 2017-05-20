@@ -1,3 +1,21 @@
+.tar.7z:
+    7z x $0
+    tar -xvf $filename.tar
+    rm -f $filename.tar
+
+.7z:
+    7z x $0
+
+.cpio:
+    cpio -iv < $0
+
+.jar:
+.war:
+    jar -xvf $0
+
+.rar:
+    unrar x $0
+
 .tar.bz2:
     tar --bzip2 -xvf $0
 
@@ -10,6 +28,9 @@
 
 .tar.xz:
     tar --xz -xvf $0
+
+.tar.Z:
+    tar --gzip -xvf $0
 
 .zip:
     unzip $0

@@ -2,6 +2,12 @@
 
 path=$1
 filename=$(basename "$path")
+explicit_name=0
+
+if [[ $# -ge 2 ]]; then
+    explicit_name=1
+    folder_name=$2
+fi
 
 function check() {
     extension=$1
@@ -9,12 +15,18 @@ function check() {
     end=${filename:(-$length):$length}
     if [[ "$extension" == "$end" ]]; then
         filename=${filename:0:(-$length)}
-        if [[ -d "$filename" ]]; then
-            echo >&2 "Folder '$filename' already exists."
+        if [[ $explicit_name -eq 1 ]]; then
+            folder=$folder_name
+        else
+            folder=$filename
+        fi
+
+        if [[ -d "$folder" ]]; then
+            echo >&2 "Folder '$folder' already exists."
             exit 1
         else
-            mkdir $filename
-            cd $filename
+            mkdir $folder
+            cd $folder
         fi
         return 0
     else
@@ -32,6 +44,6 @@ done
 cd ..
 
 if [[ $count == 1 ]]; then
-    mv $filename/$file/* $filename/
-    rmdir $filename/$file
+    mv $folder/$file/* $folder/
+    rmdir $folder/$file
 fi
