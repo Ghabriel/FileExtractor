@@ -20,13 +20,15 @@ Add new entries to `settings.txt`, following its syntax rules, and then run `mak
 See the `settings.txt` file to see which extractors are used for each of the supported file types.
 * .7z
 * .cpio
+* .ear
 * .jar
 * .rar
 * .tar.7z
 * .tar.bz2
 * .tar.gz
-* .tar.lzo
+* .tar.lz
 * .tar.lzma
+* .tar.lzo
 * .tar.xz
 * .tar.Z
 * .war
