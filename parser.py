@@ -45,7 +45,7 @@ with open(filename, "r") as file:
 
 unleash()
 output += "else\n"
-output += "\techo \"Unknown file type\"\n"
+output += "\techo >&2 \"Unknown file type\"\n"
 output += "\texit 1\n"
 output += "fi"
 print(output)

@@ -9,6 +9,7 @@
 .cpio:
     cpio -iv < $0
 
+.ear:
 .jar:
 .war:
     jar -xvf $0
@@ -17,17 +18,14 @@
     unrar x $0
 
 .tar.bz2:
-    tar --bzip2 -xvf $0
-
 .tar.gz:
 .tar.lzo:
+.tar.lz:
+.tar.xz:
     tar -xvf $0
 
 .tar.lzma:
     tar --lzma -xvf $0
-
-.tar.xz:
-    tar --xz -xvf $0
 
 .tar.Z:
     tar --gzip -xvf $0
