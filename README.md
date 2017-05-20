@@ -13,13 +13,16 @@ sudo ln -s path/to/extractor.sh x
 
 If the `folder_name` is omitted, the name of the file will be used instead (without the extension).
 
+## Extending FileExtractor
+Add new entries to `settings.txt`, following its syntax rules, and then run `make`.
+
 ## Supported extensions
 See the `settings.txt` file to see which extractors are used for each of the supported file types.
-* .tar.7z
 * .7z
 * .cpio
 * .jar
 * .rar
+* .tar.7z
 * .tar.bz2
 * .tar.gz
 * .tar.lzo

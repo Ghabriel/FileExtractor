@@ -1,3 +1,7 @@
+# --------------------------------------------------------------- #
+# --- THIS FILE IS AUTO-GENERATED. Edit settings.txt instead! --- #
+# --------------------------------------------------------------- #
+
 if check ".tar.7z"; then
     7z x ../$path
     tar -xvf $filename.tar

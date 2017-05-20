@@ -1,6 +1,7 @@
 #!/bin/python
 
 import re
+import sys
 
 filename = "settings.txt"
 extensions = []
@@ -8,14 +9,18 @@ bufferedCommands = ""
 output = ""
 first = True
 
+output += "# --------------------------------------------------------------- #\n"
+output += "# --- THIS FILE IS AUTO-GENERATED. Edit settings.txt instead! --- #\n"
+output += "# --------------------------------------------------------------- #\n\n"
+
 def unleash():
 	global extensions
 	global bufferedCommands
 	global output
 	global first
 	if len(extensions) == 0:
-		# TODO: display error message
-		pass
+		print("Error: missing extension", file=sys.stderr)
+		sys.exit(1);
 	else:
 		for ext in extensions:
 			if first:
