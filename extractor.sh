@@ -39,7 +39,6 @@ done
 cd ..
 
 if [[ $count == 1 ]]; then
-    mv $filename/* .
-    rmdir $filename
-    echo "[OUTPUT] $file"
+    mv $filename/$file/* $filename/
+    rmdir $filename/$file
 fi
