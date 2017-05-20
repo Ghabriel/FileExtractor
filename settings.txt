@@ -1,15 +1,15 @@
 .tar.bz2:
-    tar --bzip2 -xvf ../$path
+    tar --bzip2 -xvf $0
 
 .tar.gz:
 .tar.lzo:
-    tar -xvf ../$path
+    tar -xvf $0
 
 .tar.lzma:
-    tar --lzma -xvf ../$path
+    tar --lzma -xvf $0
 
 .tar.xz:
-    tar --xz -xvf ../$path
+    tar --xz -xvf $0
 
 .zip:
-    unzip ../$path
+    unzip $0

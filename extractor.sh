@@ -2,7 +2,6 @@
 
 path=$1
 filename=$(basename "$path")
-script_dir=$(dirname $(readlink -f "$0"))
 
 function check() {
     extension=$1
@@ -23,7 +22,7 @@ function check() {
     fi
 }
 
-source $script_dir/config.sh
+source $(dirname $(readlink -f "$0"))/config.sh
 
 count=0
 for file in $(ls); do
