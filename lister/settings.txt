@@ -1,0 +1,29 @@
+.7z:
+    7z l $0
+
+.cpio:
+    cpio -itv < $0
+
+.ear:
+.jar:
+.war:
+    jar -tvf $0
+
+.rar:
+    unrar l $0
+
+.tar.bz2:
+.tar.gz:
+.tar.lzo:
+.tar.lz:
+.tar.xz:
+    tar -tvf $0
+
+.tar.lzma:
+    tar --lzma -tvf $0
+
+.tar.Z:
+    tar --gzip -tvf $0
+
+.zip:
+    unzip -l $0

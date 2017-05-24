@@ -1,0 +1,24 @@
+.tar.7z:
+    tar -cvf $1 | 7z a -si $0
+
+.7z:
+    7z a $0 $1
+
+.cpio:
+	ls $1 | cpio -ov > $0
+
+.ear:
+.jar:
+.war:
+    jar -cvf $0 $1
+
+.tar.bz2:
+.tar.gz:
+.tar.lzma:
+.tar.lzo:
+.tar.lz:
+.tar.xz:
+    tar -acvf $0 $1
+
+.zip:
+    zip $0 $1
