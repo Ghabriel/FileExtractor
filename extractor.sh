@@ -1,40 +1,52 @@
 #!/bin/bash
 
-INPUT_FILES=
+INPUT_FILES=""
+TARGET_FILE=""
 
-while test $# -gt 0; do
-    if [[ $1 != -* ]]; then
+function readInputArguments() {
+    while test $# -gt 0; do
+        if [[ $1 == -* ]]; then
+            break
+        fi
+
         INPUT_FILES="$INPUT_FILES $1"
         shift
-    else
-        break
-    fi
-done
+    done
 
-while getopts "o:x" opt; do
-    case $opt in
-    o)
-        echo "-o was triggered, Parameter: $OPTARG"
-        ;;
-    \?)
-        echo "Invalid option: -$OPTARG"
-        exit 1
-        ;;
-    :)
-        echo "Option -$OPTARG requires an argument."
-        exit 1
-        ;;
-    esac
-done
+    while getopts "o:x" opt; do
+        case $opt in
+        o)
+            TARGET_FILE="$OPTARG"
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG"
+            exit 1
+            ;;
+        :)
+            echo "Option -$OPTARG requires an argument."
+            exit 1
+            ;;
+        esac
+    done
 
-shift $(expr $OPTIND - 1 )
+    shift $(expr $OPTIND - 1 )
 
-while test $# -gt 0; do
-    INPUT_FILES="$INPUT_FILES $1"
-    shift
-done
+    while test $# -gt 0; do
+        INPUT_FILES="$INPUT_FILES $1"
+        shift
+    done
+}
 
+readInputArguments $@
 echo "Input files: $INPUT_FILES"
+echo "Output file: $TARGET_FILE"
+
+for file in $INPUT_FILES; do
+    echo "Input: $file"
+done
+
+FILE_COUNT=`echo $INPUT_FILES | wc -w`
+echo "Number of files: $FILE_COUNT"
 
 # path=$1
 # filename=$(basename "$path")
