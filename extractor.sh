@@ -5,7 +5,7 @@ TARGET_FILE=""
 
 function readInputArguments() {
     while test $# -gt 0; do
-        if [[ $1 == -* ]]; then
+        if [[ "$1" == -* ]]; then
             break
         fi
 
@@ -37,16 +37,17 @@ function readInputArguments() {
     done
 }
 
-readInputArguments $@
+readInputArguments "$@"
+NUM_INPUT_FILES=`echo $INPUT_FILES | wc -w`
+
 echo "Input files: $INPUT_FILES"
-echo "Output file: $TARGET_FILE"
 
 for file in $INPUT_FILES; do
     echo "Input: $file"
 done
 
-FILE_COUNT=`echo $INPUT_FILES | wc -w`
-echo "Number of files: $FILE_COUNT"
+echo "Output file: $TARGET_FILE"
+echo "Number of files: $NUM_INPUT_FILES"
 
 # path=$1
 # filename=$(basename "$path")
