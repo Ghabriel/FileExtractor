@@ -1,7 +1,9 @@
 #!/bin/bash
 
 INPUT_FILES=""
-TARGET_FILE=""
+TARGET_FOLDER=""
+
+RETURNED_VALUE=""
 
 function readInputArguments() {
     while test $# -gt 0; do
@@ -16,7 +18,7 @@ function readInputArguments() {
     while getopts "o:x" opt; do
         case $opt in
         o)
-            TARGET_FILE="$OPTARG"
+            TARGET_FOLDER="$OPTARG"
             ;;
         \?)
             echo "Invalid option: -$OPTARG"
@@ -39,13 +41,6 @@ function readInputArguments() {
     INPUT_FILES=$(echo -e "${INPUT_FILES:2:${#INPUT_FILES}}");
 }
 
-# Returns the first filename of INPUT_FILES
-function getFirstInputFile() {
-    while read -r file; do
-        return "$file"
-    done <<< "$INPUT_FILES"
-}
-
 # Returns the name of a file, discarding folder names and extension
 # Parameters:
 # $1 - filename
@@ -55,20 +50,34 @@ function getBaseName() {
     extension=$2
     length=${#extension}
 
-    return ${filename:0:(-$length)}
+    RETURNED_VALUE=$(basename -- "${filename:0:(-1-$length)}")
+}
+
+function extract() {
+    echo "Extracting "$1" into $(pwd)"
 }
 
 readInputArguments "$@"
 NUM_INPUT_FILES=`echo "$INPUT_FILES" | wc -l`
 
 if [[ "$NUM_INPUT_FILES" == "1" ]]; then
-    FIRST_INPUT_FILE=`getFirstInputFile`
-    if [[ "$TARGET_FILE" == "" ]]; then
-        TARGET_FILE=`getBaseName $FIRST_INPUT_FILE`
+    if [[ "$TARGET_FOLDER" == "" ]]; then
+        # TODO: remove this hardcoded extension
+        getBaseName "$INPUT_FILES" "zip"
+        TARGET_FOLDER=$RETURNED_VALUE
     fi
 
-    echo "First input: $FIRST_INPUT_FILE"
-    echo "Target: $TARGET_FILE"
+    echo "Input: $INPUT_FILES"
+    echo "Target folder name: $TARGET_FOLDER"
+
+    if [[ -d "$TARGET_FOLDER" ]]; then
+        echo >&2 "Folder '$TARGET_FOLDER' already exists."
+        exit 1
+    fi
+
+    mkdir $TARGET_FOLDER
+    cd $TARGET_FOLDER
+    extract $INPUT_FILES
 else
     echo "More than one input file."
 fi
