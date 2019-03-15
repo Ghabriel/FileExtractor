@@ -9,7 +9,7 @@ function readInputArguments() {
             break
         fi
 
-        INPUT_FILES="$INPUT_FILES $1"
+        INPUT_FILES="$INPUT_FILES\n$1"
         shift
     done
 
@@ -32,19 +32,19 @@ function readInputArguments() {
     shift $(expr $OPTIND - 1 )
 
     while test $# -gt 0; do
-        INPUT_FILES="$INPUT_FILES $1"
+        INPUT_FILES="$INPUT_FILES\n$1"
         shift
     done
+
+    INPUT_FILES=$(echo -e "${INPUT_FILES:2:${#INPUT_FILES}}");
 }
 
 readInputArguments "$@"
-NUM_INPUT_FILES=`echo $INPUT_FILES | wc -w`
+NUM_INPUT_FILES=`echo "$INPUT_FILES" | wc -l`
 
-echo "Input files: $INPUT_FILES"
-
-for file in $INPUT_FILES; do
+while read -r file; do
     echo "Input: $file"
-done
+done <<< "$INPUT_FILES"
 
 echo "Output file: $TARGET_FILE"
 echo "Number of files: $NUM_INPUT_FILES"
