@@ -39,15 +39,39 @@ function readInputArguments() {
     INPUT_FILES=$(echo -e "${INPUT_FILES:2:${#INPUT_FILES}}");
 }
 
+# Returns the first filename of INPUT_FILES
+function getFirstInputFile() {
+    while read -r file; do
+        return "$file"
+    done <<< "$INPUT_FILES"
+}
+
+# Returns the name of a file, discarding folder names and extension
+# Parameters:
+# $1 - filename
+# $2 - extension
+function getBaseName() {
+    filename=$1
+    extension=$2
+    length=${#extension}
+
+    return ${filename:0:(-$length)}
+}
+
 readInputArguments "$@"
 NUM_INPUT_FILES=`echo "$INPUT_FILES" | wc -l`
 
-while read -r file; do
-    echo "Input: $file"
-done <<< "$INPUT_FILES"
+if [[ "$NUM_INPUT_FILES" == "1" ]]; then
+    FIRST_INPUT_FILE=`getFirstInputFile`
+    if [[ "$TARGET_FILE" == "" ]]; then
+        TARGET_FILE=`getBaseName $FIRST_INPUT_FILE`
+    fi
 
-echo "Output file: $TARGET_FILE"
-echo "Number of files: $NUM_INPUT_FILES"
+    echo "First input: $FIRST_INPUT_FILE"
+    echo "Target: $TARGET_FILE"
+else
+    echo "More than one input file."
+fi
 
 # path=$1
 # filename=$(basename "$path")
