@@ -54,7 +54,8 @@ function getBaseName() {
 }
 
 function extract() {
-    echo "Extracting "$1" into $(pwd)"
+    # TODO: replace $(pwd) with something less verbose
+    echo "Extracting \"$1\" into $(pwd)"
 }
 
 readInputArguments "$@"
@@ -77,9 +78,37 @@ if [[ "$NUM_INPUT_FILES" == "1" ]]; then
 
     mkdir $TARGET_FOLDER
     cd $TARGET_FOLDER
-    extract $INPUT_FILES
+    extract "$INPUT_FILES"
 else
-    echo "More than one input file."
+    if [[ "$TARGET_FOLDER" == "" ]]; then
+        echo >&2 "Specifying more than one input file requires a target name."
+        exit 1
+    fi
+
+    if [[ -d "$TARGET_FOLDER" ]]; then
+        echo >&2 "Folder '$TARGET_FOLDER' already exists."
+        exit 1
+    fi
+
+    mkdir $TARGET_FOLDER
+    cd $TARGET_FOLDER
+
+    while read -r file; do
+        # TODO: remove this hardcoded extension
+        getBaseName "$file" "zip"
+        SUB_FOLDER=$RETURNED_VALUE
+
+        if [[ -d "$SUB_FOLDER" ]]; then
+            # TODO: is skipping this file a good idea?
+            echo >&2 "Skipping file '$file' due to conflicting input filenames: duplicate target folder '$SUB_FOLDER'."
+            continue
+        fi
+
+        mkdir $SUB_FOLDER
+        cd $SUB_FOLDER
+        extract "$file"
+        cd ..
+    done <<< "$INPUT_FILES"
 fi
 
 # path=$1
