@@ -41,7 +41,7 @@ with open(filename, "r") as file:
 				unleash()
 			extensions.append(matches.group(1))
 		else:
-			bufferedCommands += line.replace("$0", "../$path")
+			bufferedCommands += line.replace("$0", "$BUNDLE_FILENAME")
 
 unleash()
 output += "else\n"

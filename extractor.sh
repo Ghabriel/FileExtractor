@@ -1,5 +1,8 @@
 #!/bin/bash
 
+ROOT_FOLDER=$(dirname $(readlink -f "$0"))
+CONFIG_FILENAME=$ROOT_FOLDER/config.sh
+
 INPUT_FILES=""
 TARGET_FOLDER=""
 
@@ -56,6 +59,20 @@ function getBaseName() {
 function extract() {
     # TODO: replace $(pwd) with something less verbose
     echo "Extracting \"$1\" into $(pwd)"
+
+    BUNDLE_FILENAME="$ROOT_FOLDER/$1"
+    source $CONFIG_FILENAME > /dev/null
+}
+
+function check() {
+    testedExtension=$1
+    length=${#testedExtension}
+    filenameEnd=${filename:(-$length):$length}
+    if [[ "$testedExtension" == "$filenameEnd" ]]; then
+        return 0
+    else
+        return 1
+    fi
 }
 
 readInputArguments "$@"
@@ -67,9 +84,6 @@ if [[ "$NUM_INPUT_FILES" == "1" ]]; then
         getBaseName "$INPUT_FILES" "zip"
         TARGET_FOLDER=$RETURNED_VALUE
     fi
-
-    echo "Input: $INPUT_FILES"
-    echo "Target folder name: $TARGET_FOLDER"
 
     if [[ -d "$TARGET_FOLDER" ]]; then
         echo >&2 "Folder '$TARGET_FOLDER' already exists."
